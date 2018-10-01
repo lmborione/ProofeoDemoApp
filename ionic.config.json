@@ -1,0 +1,7 @@
+{
+  "name": "proofeo-fidelity-demo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
