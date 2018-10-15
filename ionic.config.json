@@ -4,5 +4,15 @@
     "cordova": {}
   },
   "type": "ionic-angular",
-  "pro_id": "f62bfd53"
+  "pro_id": "f62bfd53",
+  "proxies": [
+    {
+      "path": "/proofeoGoogleAPI",
+      "proxyUrl": "https://proofeofidelity-demo.appspot.com"
+    },
+    {
+      "path": "/proofeoGoogleAPILogin",
+      "proxyUrl": "https://proofeofidelity-demo.appspot.com/login"
+    }
+  ]
 }
