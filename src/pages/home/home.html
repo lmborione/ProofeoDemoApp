@@ -1,16 +1,36 @@
-<ion-header>
+<ion-header  no-border>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <!-- <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
+    </button> -->
+    <ion-title>Proofeo</ion-title>
+
+    <ion-buttons end class="header-button-right">
+      <button ion-button icon-only (click)="login()">
+        LOG IN
+      </button>
+
+      <button ion-button icon-only (click)="signUp()">
+        SIGN UP
+      </button>
+
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
+
 <ion-content>
 
-  <ion-row style="height:90%">
-    <ion-col style="width:90%">
+  <super-tabs id="mainTabs" selectedTabIndex="0" [config]="{ sideMenu: 'left' }" (tabSelect)="onTabSelect($event)">
+    <super-tab [root]="tab1Root" [title]="tab1Title" icon="home"></super-tab>
+    <super-tab [root]="tab2Root" [title]="tab1Title"></super-tab>
+    <super-tab [root]="tab1Root" [title]="tab1Title"></super-tab>
+    <super-tab [root]="tab1Root" [title]="tab1Title"></super-tab>
+  </super-tabs>
+
+      <!-- <ion-row style="height:90%">
+  <ion-col style="width:90%">
       <super-tabs id="mainTabs" selectedTabIndex="0" [config]="{ sideMenu: 'left' }" (tabSelect)="onTabSelect($event)">
         <super-tab [root]="tab1Root" [title]="tab1Title" icon="home"></super-tab>
         <super-tab [root]="tab2Root" [title]="tab1Title"></super-tab>
@@ -19,42 +39,18 @@
       </super-tabs>
     </ion-col>
     <ion-col width-50 style="vertical-align: middle;">
-
-
         <button ion-button (click)="onClick($event)">
           <ion-icon name="arrow-dropright"></ion-icon>
         </button>
-
-
     </ion-col>
-  </ion-row>
+  </ion-row> -->
+  <!-- <ion-row height-50> -->
 
-  <ion-row height-50>
-    <!-- <ion-slides pager>
-
-  <ion-slide>
-    <ion-tab [root]="tab1Root" [tabTitle]="tab1Title" tabIcon="home">
-    </ion-tab>
-  </ion-slide>
-
-  <ion-slide style="background-color: green">
-    <h2>Slide 1</h2>
-  </ion-slide>
-
-  <ion-slide style="background-color: blue">
-    <h2>Slide 2</h2>
-  </ion-slide>
-
-  <ion-slide style="background-color: red">
-    <h2>Slide 3</h2>
-  </ion-slide>
-
-</ion-slides>-->
     <p>
       If you need information about proofeo fidelity program,
       please check our official <a href="http://proofeo.io">website</a>.
     </p>
-  </ion-row>
+  <!-- </ion-row> -->
 
 
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
