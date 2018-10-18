@@ -1,32 +1,58 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage,  NavParams , ModalController} from 'ionic-angular';
-// import { IonicPage, NavController, ModalController } from 'ionic-angular';
-// import { NavController, Content , ModalController} from 'ionic-angular';
 import { SuperTabsController } from 'ionic2-super-tabs';
 import { Tab1Root, Tab2Root, Tab3Root , Tab4Root} from '../';
+import { ProofeoApiProvider } from '../../providers'
+import { UserInfoProvider } from '../../providers/userinfo/userinfo'
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
   tab1Root: any = Tab1Root;
   tab2Root: any = Tab2Root;
   index = 0;
+userInfoProviderReady:boolean = false;
+
+  isBackendServerAvailable: boolean = false;
 
   constructor(public navCtrl: NavController
     , public modalCtrl: ModalController
     , private superTabsCtrl: SuperTabsController
     , public navParams: NavParams
+    , public apiProvider : ProofeoApiProvider
+    , public userInfoProvider : UserInfoProvider
   ) {
 
+  }
+
+  ionViewDidLoad() {
+
+    this.userInfoProvider.load().then(() => {
+      this.userInfoProviderReady = true;
+
+      console.log("user loaded : " + JSON.stringify(this.userInfoProvider.getAll()));
+
+    });
+
+
+    this.apiProvider.getBackendServerVersion().subscribe(
+      (res) => {
+        console.log(res);
+        if(res == 'beta 0.0.3') {
+          this.isBackendServerAvailable = true;
+        }
+    });
   }
 
   login() {
     let addModal = this.modalCtrl.create('LoginPage');
     addModal.onDidDismiss(item => {
-      if (item) {
-        console.log(item);
+      if (item && userInfoProviderReady) {
+        //localStorage.setItem('login', 'true');
+        this.userInfoProvider.setAll(item);
       }
     })
     addModal.present();

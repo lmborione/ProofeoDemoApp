@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
 
-import { ApiProvider } from'../../providers/api/api'
+import { ProofeoApiProvider } from '../../providers'
 import { SHA256 } from "crypto-js"; // SHA3 one-way encryption
- import { SHA3 } from "crypto-js"; // SHA3 one-way encryption
- import { AES } from 'crypto-js'; // For AES encryption/decryption
- import { enc } from 'crypto-js'; // For characters encodages types (Utf-8, latin1...)
+
 
 /**
 * Generated class for the SignupPage page.
@@ -29,7 +27,7 @@ export class SignupPage {
 
   constructor(
     private nav: NavController,
-    private api: ApiProvider,
+    private api: ProofeoApiProvider,
     public formBuilder: FormBuilder,
     private alertCtrl: AlertController
   ) {

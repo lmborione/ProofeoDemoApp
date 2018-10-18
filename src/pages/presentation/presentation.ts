@@ -15,11 +15,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PresentationPage {
 
+  isLogin: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PresentationPage');
+    //console.log('ionViewDidLoad PresentationPage');
+    //this.isLogin = localStorage.getItem('login');
+    console.log(this.isLogin);
+  }
+
+  openTab2() {
+    console.log('openTab2');
+    console.log(this.navCtrl.parent.parent);
+    this.navCtrl.parent.slideTo(1);
   }
 
 }

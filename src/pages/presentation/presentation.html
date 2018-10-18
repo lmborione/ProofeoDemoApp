@@ -13,7 +13,9 @@
   <ion-list>
     <ion-item>
       <ion-icon name="person-add"></ion-icon>
+      <button class="link" [disabled]=!isLogin ion-button icon-only (click)="openTab2()">
       Create an account
+      </button>
     </ion-item>
     <ion-item>
       <ion-icon name="cart"></ion-icon>

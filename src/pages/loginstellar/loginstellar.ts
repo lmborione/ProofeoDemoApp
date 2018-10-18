@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ApiProvider } from '../../providers/api/api'
+import { ProofeoApiProvider } from '../../providers'
+import { UserInfoProvider } from '../../providers'
 /**
  * Generated class for the LoginstellarPage page.
  *
@@ -17,7 +18,9 @@ export class LoginStellarPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public apiProvider : ApiProvider) {
+    public apiProvider : ProofeoApiProvider,
+    public userInfoProvider : UserInfoProvider
+  ) {
   }
 
   ionViewDidLoad() {
@@ -25,15 +28,20 @@ export class LoginStellarPage {
   }
 
 onCreateAccountClick(event : any){
+  //const userInfo = localStorage.getItem('loginInfo');
+console.log(this.userInfoProvider.getAll());
+  // to get a key/value pair
+  // this.userInfoProvider.getAll().then((val) => {
+  //   console.log('Your json is', val);
+  // });
+
+  //console.log(userInfo.email);
+
   this.apiProvider.getMsg().subscribe((res) => {
     console.log(res);
 
 });
 
-this.apiProvider.postUser().subscribe((res) => {
-  console.log(res);
-
-});
 
 }
 }

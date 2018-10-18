@@ -5,12 +5,12 @@
     </button> -->
     <ion-title>Proofeo</ion-title>
 
-    <ion-buttons end class="header-button-right">
-      <button ion-button icon-only (click)="login()">
+    <ion-buttons  end class="header-button-right">
+      <button [disabled]=!isBackendServerAvailable ion-button icon-only (click)="login()">
         LOG IN
       </button>
 
-      <button ion-button icon-only (click)="signUp()">
+      <button [disabled]=!isBackendServerAvailable ion-button icon-only (click)="signUp()">
         SIGN UP
       </button>
 
@@ -24,7 +24,7 @@
 
   <super-tabs id="mainTabs" selectedTabIndex="0" [config]="{ sideMenu: 'left' }" (tabSelect)="onTabSelect($event)">
     <super-tab [root]="tab1Root" [title]="tab1Title" icon="home"></super-tab>
-    <super-tab [root]="tab2Root" [title]="tab1Title"></super-tab>
+    <super-tab [root]="tab2Root" [title]="tab1Title" icon="person"></super-tab>
     <super-tab [root]="tab1Root" [title]="tab1Title"></super-tab>
     <super-tab [root]="tab1Root" [title]="tab1Title"></super-tab>
   </super-tabs>

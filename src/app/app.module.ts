@@ -3,51 +3,52 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+import { IonicStorageModule, Storage } from '@ionic/storage';
+
 import { SuperTabsModule } from 'ionic2-super-tabs';
 
+import { Credentials } from '../models/credentials';
+
 import { MyApp } from './app.component';
-// import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
-// import { ListPage } from '../pages/list/list';
-// import { PresentationPage } from '../pages/presentation/presentation';
-// import { LoginStellarPage } from '../pages/loginstellar/loginstellar';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ApiProvider } from '../providers/api/api';
+import { ProofeoApiProvider } from '../providers';
+import { UserInfoProvider } from '../providers';
 
-
+export function provideUserInfo(storage: Storage) {
+  return new UserInfoProvider(storage, {
+    email: 'lmborione@gmail.com',
+    passHash: ''
+  });
+}
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-        // LoginPage,
-    // ListPage,
-    // PresentationPage,
-    // LoginStellarPage
+    HomePage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    SuperTabsModule.forRoot()
+    SuperTabsModule.forRoot(),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    // LoginPage,
-    // ListPage,
-    // PresentationPage,
-    // LoginStellarPage
-
+    HomePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiProvider
+    ProofeoApiProvider,
+
+    { provide: UserInfoProvider, useFactory: provideUserInfo, deps: [Storage] },
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}
