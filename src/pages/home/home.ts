@@ -30,18 +30,15 @@ userInfoProviderReady:boolean = false;
 
   ionViewDidLoad() {
 
-    this.userInfoProvider.load().then(() => {
+    this.userInfoProvider.getToken().then((val) => {
       this.userInfoProviderReady = true;
-
-      console.log("user loaded : " + JSON.stringify(this.userInfoProvider.getAll()));
-
+      console.log("user loaded : " + JSON.stringify(val));
     });
-
 
     this.apiProvider.getBackendServerVersion().subscribe(
       (res) => {
         console.log(res);
-        if(res == 'beta 0.0.3') {
+        if(res == 'beta 0.0.4') {
           this.isBackendServerAvailable = true;
         }
     });
@@ -50,9 +47,9 @@ userInfoProviderReady:boolean = false;
   login() {
     let addModal = this.modalCtrl.create('LoginPage');
     addModal.onDidDismiss(item => {
-      if (item && userInfoProviderReady) {
-        //localStorage.setItem('login', 'true');
-        this.userInfoProvider.setAll(item);
+      if (item && this.userInfoProviderReady) {
+        this.userInfoProvider.setToken(item);
+        this.apiProvider.SetHeaderTokenAuth(item);
       }
     })
     addModal.present();

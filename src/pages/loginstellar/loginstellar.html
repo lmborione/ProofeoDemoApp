@@ -9,7 +9,19 @@
 
   <h4> Boost your fidelity program using blockchain </h4>
 
+  <div class="item-detail" padding>
+
+    <h4>Owner of the account :{{user.email}}</h4>
+    <p>Id of the account :{{user.id}}</p>
+
+    <ion-list>
+      <ion-item *ngFor="let balance of balances">
+        <p>Value of the asset :{{balance.balance}} {{balance.asset_type != 'native' ? balance.asset_code : 'Lumen'}}</p>
+      </ion-item>
+  </ion-list>
+  </div>
   <ion-list>
+
     <ion-item>
       <button ion-button (click)="onCreateAccountClick($event)">
         <ion-icon name="person-add"></ion-icon>

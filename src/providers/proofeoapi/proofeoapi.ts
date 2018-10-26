@@ -11,46 +11,101 @@ const httpOptionsText = {
   })
 };
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content':"application/json",
-    'Content-Type':"application/JSON",
-    'Observe': 'response'
-    //'Access-Control-Request-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept',
-    // 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
-    // 'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
-  })
-};
+// const httpOptions = {
+//   headers: new HttpHeaders({
+//     'Content':"application/json",
+//     'Content-Type':"application/JSON",
+//     'Observe': 'response'
+//     //'Access-Control-Request-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+//     // 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, PUT',
+//     // 'Access-Control-Allow-Headers' : 'Authorization, Origin, X-Requested-With, Content-Type, Accept'
+//   })
+// };
 
 @Injectable()
 export class ProofeoApiProvider {
-  apiUrl: string = '/proofeoGoogleAPI';
-  constructor(private http: HttpClient) {
+  baseUrl: string = '/proofeoGoogleAPI';
+  apiUrl: string = '/proofeoGoogleAPI/api/v1';
 
+
+  httpOptions: any;
+  tokenhttpOptions: any;
+  constructor(private http: HttpClient) {
+    this.httpOptions = {
+      'headers' : {
+        'Content':"application/json",
+        'Content-Type':"application/json",
+        'Observe': 'response'
+      }
+    };
+  }
+
+  public SetHeaderTokenAuth(info) {
+    console.log('info: ' + info.token);
+    this.tokenhttpOptions = {
+      'headers' : {
+        'Content':"application/json",
+        'Content-Type':"application/json",
+        'Observe': 'response',
+        'x-access-token': info.token
+      }
+    };
+        console.log('tokenhttpOptions: ' + JSON.stringify(this.tokenhttpOptions));
   }
 
   public getMsg(): any {
-    console.log('getmsg to ' + this.apiUrl);
-    return this.http.get(this.apiUrl, {responseType: 'text'})
+    console.log('getmsg to ' + this.baseUrl);
+    return this.http.get(this.baseUrl, {responseType: 'text'})
     .pipe(catchError(this.handleError));
   }
 
   public getBackendServerVersion(): any {
-    console.log('getmsg to ' + this.apiUrl);
-    return this.http.get(this.apiUrl + '/version', {responseType: 'text'})
+    console.log('getmsg to ' + this.baseUrl);
+    return this.http.get(this.baseUrl + '/version', {responseType: 'text'})
     .pipe(catchError(this.handleError));
   }
 
   public login(data) : any {
     console.log('Entered DataService login: ' + JSON.stringify(data));
-    return this.http.post(this.apiUrl + '/login',data, httpOptions)
+    return this.http.post(this.baseUrl + '/login',data, this.httpOptions)
     .pipe(catchError(this.handleError));
     //return this.http.post<HttpResponse<Credentials>>(this.apiUrl + '/login', data, httpOptions);
   }
 
   public signup (data): any {
     console.log('Entered DataService signup: ' + JSON.stringify(data));
-    return this.http.post(this.apiUrl + '/login/signup',data, httpOptions)
+    return this.http.post(this.baseUrl + '/signup',data, this.httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  public checkStellarAccount (): any {
+    console.log('Entered DataService checkStellarAccount');
+    console.log('tokenhttpOptions checkStellarAccount: ' + JSON.stringify(this.tokenhttpOptions));
+    return this.http.post(this.apiUrl + '/checkAccount',{}, this.tokenhttpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  public createStellarAccount (): any {
+    console.log('Entered DataService createStellarAccount');
+    return this.http.post(this.apiUrl + '/createAccount', {}, this.tokenhttpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  public trustStellarOnAccount (data): any {
+    console.log('Entered DataService trustStellarOnAccount');
+    return this.http.post(this.apiUrl + '/trustAccount', data, this.tokenhttpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  public transferAsset (data): any {
+    console.log('Entered DataService transferAsset: ' + JSON.stringify(data));
+    return this.http.post(this.apiUrl + '/transferAsset',data, this.httpOptions)
+    .pipe(catchError(this.handleError));
+  }
+
+  public transferAssetOnMyAccount (data): any {
+    console.log('Entered DataService transferAssetOnMyAccount: ' + JSON.stringify(data));
+    return this.http.post(this.apiUrl + '/transferAssetOnMyAccount',data, this.httpOptions)
     .pipe(catchError(this.handleError));
   }
 
@@ -66,7 +121,7 @@ export class ProofeoApiProvider {
       `Backend returned code ${error.status}, ` +
       `body was: ${JSON.stringify(error.error.message)}`);
     }
-    return of(error);
+    return of(error.error);
     // return an observable with a user-facing error message
     // return throwError('Something bad happened; please try again later.');
   }

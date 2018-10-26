@@ -1,71 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-
+import  { Credentials } from '../../models/credentials'
 /**
  * A simple settings/config class for storing key/value pairs with persistence.
  */
 @Injectable()
 export class UserInfoProvider {
-  private SETTINGS_KEY: string = 'userInfo';
+  private SETTINGS_KEY: string = 'token';
 
-  settings: any;
+  token: any;
 
-  _defaults: any;
+  constructor(public storage: Storage) {
 
-  constructor(public storage: Storage, defaults: any) {
-    this._defaults = defaults;
   }
 
-  load() {
+  getToken() {
     return this.storage.get(this.SETTINGS_KEY).then((value) => {
       if (value) {
-        this.settings = value;
-        return this._mergeDefaults(this._defaults);
-      } else {
-        return this.setAll(this._defaults).then((val) => {
-          this.settings = val;
-        })
+        this.token = value;
+        return this.token;
       }
     });
   }
 
-  _mergeDefaults(defaults: any) {
-    for (let k in defaults) {
-      if (!(k in this.settings)) {
-        this.settings[k] = defaults[k];
+
+  setToken(value: any) {
+    return this.storage.set(this.SETTINGS_KEY, value).then((value) => {
+      this.token = value;
+    });
+  }
+
+  clear() {
+    return this.setToken({
+      'token':'',
+      'user':{
+        'email': 'defaultUser',
+        'publicKey': ''
       }
-    }
-    return this.setAll(this.settings);
-  }
-
-  merge(settings: any) {
-    for (let k in settings) {
-      this.settings[k] = settings[k];
-    }
-    return this.save();
-  }
-
-  setValue(key: string, value: any) {
-    this.settings[key] = value;
-    return this.storage.set(this.SETTINGS_KEY, this.settings);
-  }
-
-  setAll(value: any) {
-    return this.storage.set(this.SETTINGS_KEY, value);
-  }
-
-  getValue(key: string) {
-    return this.storage.get(this.SETTINGS_KEY)
-      .then(settings => {
-        return settings[key];
-      });
-  }
-
-  save() {
-    return this.setAll(this.settings);
-  }
-
-  getAll() {
-    return this.settings;
+    }).then((val) => {
+      console.log(val);
+    });
   }
 }

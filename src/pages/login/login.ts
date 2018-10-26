@@ -41,21 +41,20 @@ export class LoginPage {
 
     // Attempt to login in through our User service
     doLogin() {
-        let hash = SHA256(this.form.value.password).toString();
+      let hash = SHA256(this.form.value.password).toString();
 
-        this.credentials.email = this.form.value.email;
-        this.credentials.passHash = hash;
+      this.credentials.email = this.form.value.email;
+      this.credentials.passHash = hash;
 
-        this.apiProvider.login(this.credentials)
-        .subscribe((resp) => {
-              // display its headers
-              console.log(resp);
-              this.viewCtrl.dismiss(resp);
+      this.apiProvider.login(this.credentials)
+      .subscribe((resp) => {
+        console.log(resp);
+        this.viewCtrl.dismiss(resp);
 
-              //this.navCtrl.push('HomePage');
-            }, (err)=>{
-                console.log(err);
-            });
+        //this.navCtrl.push('HomePage');
+      }, (err)=>{
+      console.log(err);
+    });
   }
 
 

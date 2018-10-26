@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IonicPage, NavController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, AlertController } from 'ionic-angular';
 
 import { ProofeoApiProvider } from '../../providers'
 import { SHA256 } from "crypto-js"; // SHA3 one-way encryption
@@ -27,6 +27,7 @@ export class SignupPage {
 
   constructor(
     private nav: NavController,
+    public viewCtrl: ViewController,
     private api: ProofeoApiProvider,
     public formBuilder: FormBuilder,
     private alertCtrl: AlertController
@@ -57,6 +58,7 @@ export class SignupPage {
         if (success) {
           this.createSuccess = true;
           this.showPopup("Success", "Account created.");
+
         } else {
           this.showPopup("Error", "Problem creating account.");
         }
@@ -77,7 +79,8 @@ export class SignupPage {
           text: 'OK',
           handler: data => {
             if (this.createSuccess) {
-              this.nav.popToRoot();
+              //this.nav.popToRoot();
+              this.viewCtrl.dismiss(data);
             }
           }
         }

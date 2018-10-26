@@ -19,10 +19,7 @@ import { ProofeoApiProvider } from '../providers';
 import { UserInfoProvider } from '../providers';
 
 export function provideUserInfo(storage: Storage) {
-  return new UserInfoProvider(storage, {
-    email: 'lmborione@gmail.com',
-    passHash: ''
-  });
+  return new UserInfoProvider(storage);
 }
 
 @NgModule({

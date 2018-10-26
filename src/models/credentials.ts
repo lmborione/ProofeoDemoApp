@@ -21,5 +21,9 @@
  export abstract class Credentials extends Asset {
      email: string;
      passHash: string;
-     //publicKey: string;
+ }
+
+ export abstract class User extends Asset {
+     email: string;
+     publicKey: string;
  }

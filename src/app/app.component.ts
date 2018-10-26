@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 //import { FirstRunPage } from '../pages';
 
 import { HomePage } from '../pages/home/home';
-
+import { UserInfoProvider } from '../providers'
 
 @Component({
   templateUrl: 'app.html'
@@ -26,6 +26,7 @@ export class MyApp {
 
   constructor(public platform: Platform,
     public statusBar: StatusBar,
+    public userInfoProvider:UserInfoProvider,
      public splashScreen: SplashScreen) {
     this.initializeApp();
 
@@ -37,6 +38,8 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.show();
+
+      this.userInfoProvider.clear();
     });
   }
 
